@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.devhypercoder.aicuisine.R
 import com.devhypercoder.aicuisine.ui.UserViewModel
 
@@ -25,6 +26,7 @@ class LoginFragment : Fragment() {
         view.findViewById<Button>(R.id.login_button).setOnClickListener {
             userViewModel.authStatus.value = !userViewModel.authStatus.value!!
             userViewModel.userName.value = "DevHyperCoder"
+            findNavController().popBackStack()
         }
     }
 }
