@@ -12,6 +12,8 @@ import androidx.navigation.fragment.findNavController
 import com.devhypercoder.aicuisine.R
 import com.devhypercoder.aicuisine.databinding.RegisterFragmentBinding
 import com.devhypercoder.aicuisine.ui.UserViewModel
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -35,7 +37,14 @@ class RegisterFragment : Fragment() {
 
             auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
                 if (!it.isSuccessful) {
-                    Log.e(TAG, "onCreateView: createUserWithEmailAndPassword", it.exception)
+                    // Throw the exception and catch it for error handling
+                    try {
+                        throw it.exception!!
+                    } catch (e: FirebaseAuthWeakPasswordException) {
+                        Log.e(TAG, "onCreateView: Weak Password!", e)
+                    } catch (e: FirebaseAuthUserCollisionException) {
+                        Log.e(TAG, "onCreateView: Email already in use!", e)
+                    }
                     userViewModel.authStatus.value = false
                     return@addOnCompleteListener
                 }

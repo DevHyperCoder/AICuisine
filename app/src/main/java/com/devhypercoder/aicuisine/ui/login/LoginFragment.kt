@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.devhypercoder.aicuisine.R
 import com.devhypercoder.aicuisine.databinding.LoginFragmentBinding
 import com.devhypercoder.aicuisine.ui.UserViewModel
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -35,7 +36,12 @@ class LoginFragment : Fragment() {
             val pass = binding.loginPasswordEditText.text.toString()
             auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                 if (!it.isSuccessful) {
-                    Log.e(TAG, "onCreateView: signInWithEmailAndPassword", it.exception)
+                    try {
+                        throw it.exception!!
+                    } catch (e: FirebaseAuthInvalidCredentialsException) {
+                        Log.e(TAG, "onCreateView: Username or Password is not correct!", e)
+                    }
+                    userViewModel.authStatus.value = false
                     return@addOnCompleteListener
                 }
                 userViewModel.authStatus.value = true
