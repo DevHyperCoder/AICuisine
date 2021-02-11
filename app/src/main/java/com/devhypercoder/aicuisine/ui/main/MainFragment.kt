@@ -37,6 +37,14 @@ class MainFragment : Fragment() {
         userViewModel.email.observe(viewLifecycleOwner, Observer {
             binding.userName = it
         })
+
+        binding.logoutBtn.setOnClickListener {
+            auth.signOut()
+            userViewModel.authStatus.value = false
+            userViewModel.email.value = ""
+
+        }
+
         return binding.root
     }
 }
