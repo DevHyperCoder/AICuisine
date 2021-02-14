@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="btn_border_radius" type="dimen">10dp</item>
+    <item name="padding" type="dimen">20dp</item>
+</resources>
