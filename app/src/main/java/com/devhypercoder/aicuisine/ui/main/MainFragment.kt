@@ -32,7 +32,7 @@ class MainFragment : Fragment() {
         }
 
         userViewModel.authStatus.observe(viewLifecycleOwner, Observer { authStatus ->
-            if (!authStatus) navController.navigate(R.id.loginFragment)
+            if (!authStatus) navController.navigate(R.id.registerFragment)
         })
         userViewModel.email.observe(viewLifecycleOwner, Observer {
             binding.userName = it
