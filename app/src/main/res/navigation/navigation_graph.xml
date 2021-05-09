@@ -9,7 +9,11 @@
         android:id="@+id/mainFragment"
         android:name="com.devhypercoder.aicuisine.ui.main.MainFragment"
         android:label="main_fragment"
-        tools:layout="@layout/main_fragment" />
+        tools:layout="@layout/main_fragment">
+        <action
+            android:id="@+id/action_mainFragment_to_menuFragment"
+            app:destination="@id/menuFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.devhypercoder.aicuisine.ui.login.LoginFragment"
@@ -26,5 +30,13 @@
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.devhypercoder.aicuisine.ui.recipies.RecipesFragment"
+        android:label="MenuFragment">
+        <action
+            android:id="@+id/action_menuFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
 </navigation>

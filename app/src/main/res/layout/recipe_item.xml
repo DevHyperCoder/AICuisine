@@ -5,19 +5,20 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/recipie_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/green">
+        app:cardBackgroundColor="@color/blue">
 
         <TextView
-            android:id="@+id/category_text"
+            android:id="@+id/recipie_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:padding="40sp"
+            android:paddingStart="40sp"
+            android:paddingLeft="40sp"
+            android:paddingEnd="40sp"
+            android:paddingRight="40sp"
             android:textAlignment="textEnd"
-            android:textSize="40sp"
-            app:drawableStartCompat="@drawable/ic_sandwich" />
+            android:textSize="40sp" />
     </androidx.cardview.widget.CardView>
 </RelativeLayout>
