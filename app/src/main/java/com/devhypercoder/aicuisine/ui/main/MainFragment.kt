@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devhypercoder.aicuisine.R
@@ -55,7 +54,7 @@ class MainFragment : Fragment() {
 //        }
 
 
-        val categoryAdapter = CategoryAdapter(getCategoryList()) {
+        val categoryAdapter = CategoryAdapter(requireContext(), getCategoryList()) {
             Toast.makeText(context, it.name, Toast.LENGTH_SHORT).show()
             stateViewModel.selectedCategory.value = it
             navController.navigate(R.id.action_mainFragment_to_menuFragment)
@@ -73,14 +72,25 @@ class MainFragment : Fragment() {
             val recipieArray = ArrayList<Recipe>()
             val ingredientArray = ArrayList<Ingredient>()
 
-            ingredientArray.add(Ingredient("", "1 pinch", "Pepper"))
+            ingredientArray.add(
+                Ingredient(
+                    "https://images.devhypercoder.com/tomato.png",
+                    "1 pinch",
+                    "Pepper"
+                )
+            )
             ingredientArray.add(Ingredient("", "3 pinch", "Salt"))
 
             recipieArray.add(Recipe("random recipie $i", ingredientArray, ""))
             recipieArray.add(Recipe("random another one", ingredientArray, ""))
 
             array.add(
-                Category("$i category", "", "", recipieArray)
+                Category(
+                    "breakfast",
+                    "https://images.devhypercoder.com/tomato.png",
+                    "",
+                    recipieArray
+                )
             )
         }
         return array

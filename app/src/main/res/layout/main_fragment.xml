@@ -28,7 +28,10 @@
                 android:id="@+id/category_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="20sp"
+                android:paddingLeft="20sp"
 
+                android:paddingRight="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
