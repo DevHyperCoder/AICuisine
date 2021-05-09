@@ -86,9 +86,9 @@ class MainFragment : Fragment() {
 
             array.add(
                 Category(
-                    "breakfast",
+                    "Breakfast",
                     "https://images.devhypercoder.com/tomato.png",
-                    "",
+                    "#ff57beff",
                     recipieArray
                 )
             )
