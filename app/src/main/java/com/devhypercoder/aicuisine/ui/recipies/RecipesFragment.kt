@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.devhypercoder.aicuisine.R
+import com.devhypercoder.aicuisine.data.getRecipe
 import com.devhypercoder.aicuisine.ui.StateViewModel
 import com.devhypercoder.aicuisine.ui.adapters.RecipesAdapter
 
@@ -42,7 +43,11 @@ class RecipesFragment : Fragment() {
 
         val adapter = RecipesAdapter(recipeList) {
             Toast.makeText(context, it.name, Toast.LENGTH_SHORT).show()
-            stateViewModel.selectedRecipie.value = it
+
+            getRecipe(it) { re ->
+                stateViewModel.selectedRecipie.value = re
+            }
+
             findNavController().navigate(R.id.action_menuFragment_to_recipeFragment)
         }
 

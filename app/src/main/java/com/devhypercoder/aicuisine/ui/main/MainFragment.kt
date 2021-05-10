@@ -12,16 +12,18 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.devhypercoder.aicuisine.R
 import com.devhypercoder.aicuisine.data.Category
-import com.devhypercoder.aicuisine.data.Ingredient
-import com.devhypercoder.aicuisine.data.Recipe
+import com.devhypercoder.aicuisine.data.getCategoryListFB
 import com.devhypercoder.aicuisine.databinding.MainFragmentBinding
 import com.devhypercoder.aicuisine.ui.StateViewModel
 import com.devhypercoder.aicuisine.ui.UserViewModel
 import com.devhypercoder.aicuisine.ui.adapters.CategoryAdapter
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.firestoreSettings
 import com.google.firebase.ktx.Firebase
 
 class MainFragment : Fragment() {
+    private val categories = ArrayList<Category>()
     private val userViewModel: UserViewModel by activityViewModels()
     private val stateViewModel: StateViewModel by activityViewModels()
     override fun onCreateView(
@@ -45,6 +47,11 @@ class MainFragment : Fragment() {
             binding.userName = it
         })
 
+        val settings = firestoreSettings {
+            isPersistenceEnabled = true
+        }
+        Firebase.firestore.firestoreSettings = settings
+
         // TODO fix later pls
 //        binding.logoutBtn.setOnClickListener {
 //            auth.signOut()
@@ -53,46 +60,21 @@ class MainFragment : Fragment() {
 //
 //        }
 
-
-        val categoryAdapter = CategoryAdapter(requireContext(), getCategoryList()) {
+        val categoryAdapter = CategoryAdapter(requireContext(), categories) {
             Toast.makeText(context, it.name, Toast.LENGTH_SHORT).show()
             stateViewModel.selectedCategory.value = it
             navController.navigate(R.id.action_mainFragment_to_menuFragment)
+        }
+
+        getCategoryListFB() { categoryList ->
+            categories.clear()
+            categories.addAll(categoryList)
+            categoryAdapter.notifyDataSetChanged()
         }
 
         binding.categoryRecyclerview.layoutManager = LinearLayoutManager(context)
         binding.categoryRecyclerview.adapter = categoryAdapter
 
         return binding.root
-    }
-
-    private fun getCategoryList(): ArrayList<Category> {
-        val array: ArrayList<Category> = ArrayList()
-        for (i in 0..3) {
-            val recipieArray = ArrayList<Recipe>()
-            val ingredientArray = ArrayList<Ingredient>()
-
-            ingredientArray.add(
-                Ingredient(
-                    "https://images.devhypercoder.com/tomato.png",
-                    "1 pinch",
-                    "Pepper"
-                )
-            )
-            ingredientArray.add(Ingredient("", "3 pinch", "Salt"))
-
-            recipieArray.add(Recipe("random recipie $i", ingredientArray, ""))
-            recipieArray.add(Recipe("random another one", ingredientArray, ""))
-
-            array.add(
-                Category(
-                    "Breakfast",
-                    "https://images.devhypercoder.com/tomato.png",
-                    "#ff57beff",
-                    recipieArray
-                )
-            )
-        }
-        return array
     }
 }

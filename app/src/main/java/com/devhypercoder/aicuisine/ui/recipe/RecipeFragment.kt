@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.devhypercoder.aicuisine.R
+import com.devhypercoder.aicuisine.data.Ingredient
 import com.devhypercoder.aicuisine.data.Recipe
 import com.devhypercoder.aicuisine.ui.StateViewModel
 import com.devhypercoder.aicuisine.ui.adapters.IngredientGridAdapter
@@ -29,21 +30,31 @@ class RecipeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recipe: Recipe = stateViewModel.selectedRecipie.value!!
+        var recipe: Recipe = Recipe("", ArrayList(), "")
 
-        view.findViewById<TextView>(R.id.recipe_name_r).apply {
-            text = recipe.name
-        }
 
-        // Load Image later
-        val image = view.findViewById<ImageView>(R.id.recipe_image)
-
-        Glide.with(requireContext()).load(recipe.image).into(image)
-
-        val gridAdapter = IngredientGridAdapter(requireContext(), recipe.ingredients)
+        val gridAdapter = IngredientGridAdapter(requireContext(), gridData)
 
         val grid = view.findViewById<GridView>(R.id.ingredient_grid)
 
         grid.adapter = gridAdapter
+
+        stateViewModel.selectedRecipie.observe(viewLifecycleOwner) {
+            recipe = it!!
+            view.findViewById<TextView>(R.id.recipe_name_r).apply {
+                text = recipe.name
+            }
+
+            // Load Image later
+            val image = view.findViewById<ImageView>(R.id.recipe_image)
+
+            Glide.with(requireContext()).load(recipe.image).into(image)
+
+            gridData.clear()
+            gridData.addAll(recipe.ingredients)
+            gridAdapter.notifyDataSetChanged()
+        }
     }
+
+    private val gridData = ArrayList<Ingredient>()
 }
